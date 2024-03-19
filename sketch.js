@@ -1,5 +1,6 @@
 let osc;
 let lfo;
+let isPlaying = false;
 
 function setup() {
   createCanvas(400, 400);
@@ -32,15 +33,65 @@ function preload() {
 }
 
 function draw() {
+
   if (mouseIsPressed) {
+
     background(laser);
-    playLaserSound();
+
+    if (!isPlaying) {
+
+      playSound();
+
+      isPlaying = true;
+
+    }
+
   } else {
+
     background(240);
-    text('Press left click for LaserTag', 150, height / 3);
+
+    text('Press left click for amber alert', 125, height / 2);
+
+    if (isPlaying) {
+
+      stopSound();
+
+      isPlaying = false;
+
+    }
+
   }
+
 }
 
-function playLaserSound() {
-  osc.triggerAttackRelease("C4", "8n");  // Play a note with the LFO applied
+ 
+
+function playSound() {
+
+  osc.triggerAttack("C4");
+
 }
+
+ 
+
+function stopSound() {
+
+  osc.triggerRelease();
+
+}
+
+ 
+
+function mouseReleased() {
+
+  if (isPlaying) {
+
+    stopSound();
+
+    isPlaying = false;
+
+  }
+
+}
+
+ 
